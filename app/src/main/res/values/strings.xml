@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">YaToDoList</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="example_item_text">Съешь этих французких булочек. Съешь этих французких булочек. Съешь этих французких булочек. Съешь этих французких булочек.</string>
+    <string name="undo">Undo</string>
+    <string name="done">Выполнено - 5</string>
+    <string name="my_businesses">Мои дела</string>
+    <string name="filter">фильтровать</string>
+    <string name="info">информация</string>
+    <string name="priority">приоритет</string>
+    <string name="describe_task">Опишите задачу</string>
+    <string name="priority_title">Важность</string>
+    <string name="priority_none">Нет</string>
+    <string name="priority_low">Низкий</string>
+    <string name="priority_high">Высокий</string>
+    <string name="deadlineTitle">Сделать до</string>
+    <string name="Remove">Удалить</string>
+    <string name="save">Сохранить</string>
+</resources>
