@@ -12,9 +12,9 @@ import com.google.android.material.snackbar.Snackbar
 import ru.alexleru.ya.todolist.App
 import ru.alexleru.ya.todolist.R
 import ru.alexleru.ya.todolist.databinding.FragmentListOfToDoBinding
-import ru.alexleru.ya.todolist.model.ToDoItem
-import ru.alexleru.ya.todolist.model.ToDoItemService
-import ru.alexleru.ya.todolist.model.ToDoListener
+import ru.alexleru.ya.todolist.domain.ToDoItem
+import ru.alexleru.ya.todolist.domain.ToDoItemService
+import ru.alexleru.ya.todolist.domain.ToDoListener
 
 
 class ListOfToDoFragment : Fragment() {

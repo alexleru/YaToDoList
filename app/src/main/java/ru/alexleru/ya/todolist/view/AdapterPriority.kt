@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import ru.alexleru.ya.todolist.R
-import ru.alexleru.ya.todolist.model.PriorityToDo
+import ru.alexleru.ya.todolist.domain.PriorityToDo
 
 class AdapterPriority(context: Context) :
     ArrayAdapter<PriorityToDo>(context, 0, PriorityToDo.values()) {

@@ -8,8 +8,8 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import ru.alexleru.ya.todolist.R
 import ru.alexleru.ya.todolist.databinding.ItemTodoBinding
-import ru.alexleru.ya.todolist.model.PriorityToDo
-import ru.alexleru.ya.todolist.model.ToDoItem
+import ru.alexleru.ya.todolist.domain.PriorityToDo
+import ru.alexleru.ya.todolist.domain.ToDoItem
 import ru.alexleru.ya.todolist.toStringDateForList
 
 class AdapterListOfToDo() :

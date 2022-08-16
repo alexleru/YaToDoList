@@ -11,9 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import ru.alexleru.ya.todolist.*
 import ru.alexleru.ya.todolist.databinding.FragmentToDoFormBinding
-import ru.alexleru.ya.todolist.model.PriorityToDo
-import ru.alexleru.ya.todolist.model.ToDoItem
-import ru.alexleru.ya.todolist.model.ToDoItemService
+import ru.alexleru.ya.todolist.domain.PriorityToDo
+import ru.alexleru.ya.todolist.domain.ToDoItem
+import ru.alexleru.ya.todolist.domain.ToDoItemService
 import java.util.*
 
 class ToDoFormFragment : Fragment() {

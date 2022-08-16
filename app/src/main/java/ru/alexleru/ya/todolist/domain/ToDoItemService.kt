@@ -1,4 +1,4 @@
-package ru.alexleru.ya.todolist.model
+package ru.alexleru.ya.todolist.domain
 
 import ru.alexleru.ya.todolist.toDate
 import ru.alexleru.ya.todolist.toDateTime
