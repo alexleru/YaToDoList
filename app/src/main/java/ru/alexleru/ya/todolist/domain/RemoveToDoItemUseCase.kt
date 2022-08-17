@@ -1,7 +1,7 @@
 package ru.alexleru.ya.todolist.domain
 
-class RemoveToDoItemUseCase {
+class RemoveToDoItemUseCase(private val toDoItemsRepository: ToDoItemsRepository) {
     fun removeToDoItem(toDoItem: ToDoItem){
-        TODO()
+        toDoItemsRepository.removeToDoItem(toDoItem)
     }
 }

@@ -1,7 +1,7 @@
 package ru.alexleru.ya.todolist.domain
 
-class EditToDoItemUseCase {
+class EditToDoItemUseCase(private val toDoItemsRepository: ToDoItemsRepository) {
     fun editToDoItem(toDoItem: ToDoItem){
-        TODO()
+        toDoItemsRepository.editToDoItem(toDoItem)
     }
 }

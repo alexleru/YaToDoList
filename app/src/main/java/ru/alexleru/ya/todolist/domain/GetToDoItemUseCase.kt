@@ -1,7 +1,7 @@
 package ru.alexleru.ya.todolist.domain
 
-class GetToDoItemUseCase {
+class GetToDoItemUseCase(private val toDoItemsRepository: ToDoItemsRepository) {
     fun getByIdToDoItem(id: String): ToDoItem{
-        TODO()
+        return toDoItemsRepository.getByIdToDoItem(id)
     }
 }
