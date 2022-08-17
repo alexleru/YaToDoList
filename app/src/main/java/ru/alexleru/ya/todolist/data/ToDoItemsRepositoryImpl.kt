@@ -2,19 +2,23 @@ package ru.alexleru.ya.todolist.data
 
 import ru.alexleru.ya.todolist.domain.ToDoItem
 import ru.alexleru.ya.todolist.domain.ToDoItemsRepository
+import java.util.*
 
 class ToDoItemsRepositoryImpl : ToDoItemsRepository {
 
     val toDoItemList = mutableListOf<ToDoItem>()
+    private fun createId() = UUID.randomUUID().toString()
 
     override fun addToDoItem(toDoItem: ToDoItem) {
+        if (toDoItem.id != ToDoItem.UNDEFINE_ID) {
+            toDoItem.id = createId()
+        }
         toDoItemList.add(toDoItem)
     }
 
     override fun editToDoItem(toDoItem: ToDoItem) {
-        val item = toDoItemList.find { it.id == toDoItem.id }
-            ?: throw RuntimeException("Not found ToDoItem $toDoItem by ID")
-        removeToDoItem(toDoItem)
+        val oldItem = getByIdToDoItem(toDoItem.id)
+        removeToDoItem(oldItem)
         addToDoItem(toDoItem)
     }
 
