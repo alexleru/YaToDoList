@@ -7,7 +7,7 @@ data class ToDoItem(
     val name: String,
     val priorityToDo: PriorityToDo,
     val deadline: Date?,
-    var isDone: Boolean,
+    val isDone: Boolean,
     val creationDate: Date,
     val modifiedDate: Date?
 ) {

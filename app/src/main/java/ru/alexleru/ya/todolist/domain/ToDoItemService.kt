@@ -33,13 +33,7 @@ class ToDoItemService {
         }
     }
 
-    fun changeDoneStatus(toDoItem: ToDoItem){
-        val indexToDelete = listOfToDo.indexOfFirst { it.id == toDoItem.id }
-        if (indexToDelete != -1) {
-            listOfToDo.find { it.id == toDoItem.id}?.isDone = !toDoItem.isDone
-            notifyChange()
-        }
-    }
+
 
     fun addListener(listener: ToDoListener) {
         listeners.add(listener)
