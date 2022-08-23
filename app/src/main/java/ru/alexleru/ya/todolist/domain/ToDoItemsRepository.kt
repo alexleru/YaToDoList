@@ -1,6 +1,7 @@
 package ru.alexleru.ya.todolist.domain
 
 import androidx.lifecycle.LiveData
+import ru.alexleru.ya.todolist.domain.model.ToDoItem
 
 interface ToDoItemsRepository {
     fun addToDoItem(toDoItem: ToDoItem)

@@ -1,7 +1,8 @@
-package ru.alexleru.ya.todolist.view
+package ru.alexleru.ya.todolist.presentation.fragment
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import ru.alexleru.ya.todolist.*
 import ru.alexleru.ya.todolist.databinding.FragmentToDoFormBinding
-import ru.alexleru.ya.todolist.domain.PriorityToDo
-import ru.alexleru.ya.todolist.domain.ToDoItem
+import ru.alexleru.ya.todolist.domain.model.PriorityToDo
+import ru.alexleru.ya.todolist.domain.model.ToDoItem
 import ru.alexleru.ya.todolist.domain.ToDoItemService
 import java.util.*
 
@@ -36,10 +37,12 @@ class ToDoFormFragment : Fragment() {
     }
 
     private fun view() {
+
         buttonClose()
         buttonSave()
         spinner()
-        openToDoItem(arg.id)
+        Log.i("ARG", "$arg")
+        arg.id?.let { openToDoItem(it)}
         switchView()
         textViewDate()
 

@@ -1,31 +1,21 @@
-package ru.alexleru.ya.todolist.view
+package ru.alexleru.ya.todolist.presentation.fragment
 
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
 import ru.alexleru.ya.todolist.R
 import ru.alexleru.ya.todolist.databinding.ItemTodoBinding
-import ru.alexleru.ya.todolist.domain.PriorityToDo
-import ru.alexleru.ya.todolist.domain.ToDoItem
+import ru.alexleru.ya.todolist.domain.model.PriorityToDo
+import ru.alexleru.ya.todolist.domain.model.ToDoItem
 import ru.alexleru.ya.todolist.toStringDateForList
 
-class AdapterListOfToDo() :
-    RecyclerView.Adapter<AdapterListOfToDo.ToDoViewHolder>() {
+class AdapterListOfToDo : ListAdapter<ToDoItem, ToDoViewHolder>(ListOfToDoItemDiffCallback()) {
 
-    var list: List<ToDoItem> = listOf()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+    var clickItemListener: ((ToDoItem) -> Unit)? = null
 
-    var clickItemListener: onClickItemListener? = null
-
-    class ToDoViewHolder(
-        val binding: ItemTodoBinding
-    ) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ToDoViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -34,7 +24,7 @@ class AdapterListOfToDo() :
     }
 
     override fun onBindViewHolder(holder: ToDoViewHolder, position: Int) {
-        val todo = list[position]
+        val todo = getItem(position)
         with(holder.binding) {
             checkBox.isChecked = todo.isDone
 
@@ -52,7 +42,7 @@ class AdapterListOfToDo() :
                 textViewDate.visibility = View.GONE
             }
 
-            holder.itemView.setOnClickListener { clickItemListener?.onClick(todo.id) }
+            holder.itemView.setOnClickListener { clickItemListener?.invoke(todo) }
 
             showImage(todo.priorityToDo, imageViewPriority)
         }
@@ -72,12 +62,5 @@ class AdapterListOfToDo() :
                 imageView.visibility = View.GONE
             }
         }
-
-    }
-
-    override fun getItemCount(): Int = list.size
-
-    fun interface onClickItemListener {
-        fun onClick(id: String)
     }
 }

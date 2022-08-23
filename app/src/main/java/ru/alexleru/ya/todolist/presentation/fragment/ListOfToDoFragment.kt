@@ -1,4 +1,4 @@
-package ru.alexleru.ya.todolist.view
+package ru.alexleru.ya.todolist.presentation.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,9 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import ru.alexleru.ya.todolist.R
 import ru.alexleru.ya.todolist.databinding.FragmentListOfToDoBinding
-import ru.alexleru.ya.todolist.domain.ToDoItem
-import ru.alexleru.ya.todolist.presentation.ListOfToDoViewModel
-
+import ru.alexleru.ya.todolist.domain.model.ToDoItem
+import ru.alexleru.ya.todolist.presentation.viewmodel.ListOfToDoViewModel
 
 class ListOfToDoFragment : Fragment() {
 
@@ -24,23 +23,48 @@ class ListOfToDoFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentListOfToDoBinding.inflate(inflater, container, false)
+        view()
+        return binding.root
+    }
 
+    private fun view() {
+        floatButton()
+        recycleView()
+    }
+
+    private fun recycleView() {
         adapter = AdapterListOfToDo()
         binding.recycleView.adapter = adapter
+        listOfToDoViewModel.listOfToDo.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+
+        }
+        recycleViewItemTouchHelper()
+        recycleClickItem()
+    }
+
+    private fun recycleViewItemTouchHelper() {
         ItemTouchHelper(simpleCallback).attachToRecyclerView(binding.recycleView)
-        adapter.clickItemListener = AdapterListOfToDo.onClickItemListener {
-            val action = ListOfToDoFragmentDirections.actionListOfToDoFragmentToToDoFormFragment(it)
+
+    }
+
+    private fun recycleClickItem() {
+        adapter.clickItemListener = {
+            val action =
+                ListOfToDoFragmentDirections.actionListOfToDoFragmentToToDoFormFragment(it.id)
             this.findNavController().navigate(action)
         }
+    }
 
-        listOfToDoViewModel.listOfToDo.observe(viewLifecycleOwner){
-            adapter.list = it
+    private fun floatButton() {
+        binding.createToDoFloatButton.setOnClickListener {
+            val action =
+                ListOfToDoFragmentDirections.actionListOfToDoFragmentToToDoFormFragment(null)
+            this.findNavController().navigate(action)
         }
-
-        return binding.root
     }
 
     private val simpleCallback =
@@ -48,16 +72,16 @@ class ListOfToDoFragment : Fragment() {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
+                target: RecyclerView.ViewHolder,
             ) = false
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
-                val toDoItem = adapter.list[position]
+                val toDoItem = adapter.currentList[position]
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
                         listOfToDoViewModel.removeToDoItem(toDoItem)
-                        //snackbar(toDoItem, position)
+                        snackbar(toDoItem)
                     }
                     ItemTouchHelper.RIGHT -> {
                         listOfToDoViewModel.editToDoItem(toDoItem)
@@ -67,12 +91,12 @@ class ListOfToDoFragment : Fragment() {
 
         }
 
-/*    fun snackbar(toDo: ToDoItem, position: Int) {
-        Snackbar.make(binding.recycleView, toDo.name, Snackbar.LENGTH_LONG).setAction(
+    fun snackbar(toDoItem: ToDoItem) {
+        Snackbar.make(binding.recycleView, toDoItem.name, Snackbar.LENGTH_LONG).setAction(
             getString(R.string.undo)
         ) {
-            toDoItemService.setToDo(toDo, position)
+            listOfToDoViewModel.addToDoItem(toDoItem)
         }.show()
-    }*/
+    }
 
 }

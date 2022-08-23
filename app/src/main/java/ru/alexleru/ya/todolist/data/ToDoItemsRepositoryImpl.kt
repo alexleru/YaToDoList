@@ -2,10 +2,9 @@ package ru.alexleru.ya.todolist.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import ru.alexleru.ya.todolist.dateToTriple
-import ru.alexleru.ya.todolist.domain.PriorityToDo
-import ru.alexleru.ya.todolist.domain.ToDoItem
 import ru.alexleru.ya.todolist.domain.ToDoItemsRepository
+import ru.alexleru.ya.todolist.domain.model.PriorityToDo
+import ru.alexleru.ya.todolist.domain.model.ToDoItem
 import ru.alexleru.ya.todolist.toDate
 import ru.alexleru.ya.todolist.toDateTime
 import java.util.*
@@ -13,7 +12,18 @@ import java.util.*
 class ToDoItemsRepositoryImpl : ToDoItemsRepository {
 
     private val toDoItemListLV = MutableLiveData<List<ToDoItem>>()
-    private val toDoItemList = mutableListOf<ToDoItem>()
+    private val toDoItemList = sortedSetOf(object : Comparator<ToDoItem> {
+        override fun compare(p0: ToDoItem, p1: ToDoItem): Int {
+            var compareCreationDate = p0.creationDate.compareTo(p1.creationDate)
+            if (compareCreationDate == 0) {
+                compareCreationDate =
+                    if (p0.deadline == null || p1.deadline == null) return 0
+                    else p0.deadline.compareTo(p1.deadline)
+            }
+            return compareCreationDate
+        }
+    })
+
     private fun createId() = UUID.randomUUID().toString()
 
     override fun addToDoItem(toDoItem: ToDoItem) {
@@ -44,7 +54,7 @@ class ToDoItemsRepositoryImpl : ToDoItemsRepository {
         updateToDoItemList()
     }
 
-    private fun updateToDoItemList(){
+    private fun updateToDoItemList() {
         toDoItemListLV.value = toDoItemList.toList()
     }
 
@@ -194,6 +204,54 @@ class ToDoItemsRepositoryImpl : ToDoItemsRepository {
                 "22/08/2022".toDate(),
                 false,
                 "19/07/2022 19:00:01".toDateTime(),
+                null
+            )
+        )
+
+        addToDoItem(
+            ToDoItem(
+                "14",
+                "Алгоритмы",
+                PriorityToDo.HIGH,
+                "24/08/2022".toDate(),
+                false,
+                "21/08/2022 19:00:01".toDateTime(),
+                null
+            )
+        )
+
+        addToDoItem(
+            ToDoItem(
+                "15",
+                "Accessibility (факультатив)",
+                PriorityToDo.HIGH,
+                "26/08/2022".toDate(),
+                false,
+                "21/08/2022 19:00:01".toDateTime(),
+                null
+            )
+        )
+
+        addToDoItem(
+            ToDoItem(
+                "16",
+                "Инструменты контроля",
+                PriorityToDo.HIGH,
+                "31/08/2022".toDate(),
+                false,
+                "21/08/2022 19:00:01".toDateTime(),
+                null
+            )
+        )
+
+        addToDoItem(
+            ToDoItem(
+                "17",
+                "Интенсив тренировки по алгоритмам",
+                PriorityToDo.HIGH,
+                "05/09/2022".toDate(),
+                false,
+                "21/08/2022 19:00:01".toDateTime(),
                 null
             )
         )

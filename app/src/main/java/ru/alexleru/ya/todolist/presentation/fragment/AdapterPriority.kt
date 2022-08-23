@@ -1,4 +1,4 @@
-package ru.alexleru.ya.todolist.view
+package ru.alexleru.ya.todolist.presentation.fragment
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import ru.alexleru.ya.todolist.R
-import ru.alexleru.ya.todolist.domain.PriorityToDo
+import ru.alexleru.ya.todolist.domain.model.PriorityToDo
 
 class AdapterPriority(context: Context) :
     ArrayAdapter<PriorityToDo>(context, 0, PriorityToDo.values()) {

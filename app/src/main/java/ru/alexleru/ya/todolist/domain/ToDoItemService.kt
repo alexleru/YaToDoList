@@ -1,5 +1,7 @@
 package ru.alexleru.ya.todolist.domain
 
+import ru.alexleru.ya.todolist.domain.model.PriorityToDo
+import ru.alexleru.ya.todolist.domain.model.ToDoItem
 import ru.alexleru.ya.todolist.toDate
 import ru.alexleru.ya.todolist.toDateTime
 

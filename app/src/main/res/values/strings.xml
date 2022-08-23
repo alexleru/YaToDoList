@@ -16,4 +16,5 @@
     <string name="deadlineTitle">Сделать до</string>
     <string name="Remove">Удалить</string>
     <string name="save">Сохранить</string>
+    <string name="create_new_todo_item">Для создания нового элемента</string>
 </resources>

@@ -1,4 +1,4 @@
-package ru.alexleru.ya.todolist.domain
+package ru.alexleru.ya.todolist.domain.model
 
 import java.util.*
 
