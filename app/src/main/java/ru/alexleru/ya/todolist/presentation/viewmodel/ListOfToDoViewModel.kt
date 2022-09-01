@@ -10,7 +10,7 @@ import ru.alexleru.ya.todolist.domain.usecase.AddToDoItemUseCase
 
 class ListOfToDoViewModel : ViewModel() {
 
-    private val repository = ToDoItemsRepositoryImpl()
+    private val repository = ToDoItemsRepositoryImpl
 
     private val getToDoListUseCase = GetToDoListUseCase(repository)
     private val addToDoItemUseCase = AddToDoItemUseCase(repository)

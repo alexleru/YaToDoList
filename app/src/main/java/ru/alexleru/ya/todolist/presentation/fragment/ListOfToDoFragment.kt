@@ -26,11 +26,16 @@ class ListOfToDoFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentListOfToDoBinding.inflate(inflater, container, false)
-        view()
+
         return binding.root
     }
 
-    private fun view() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViews()
+    }
+
+    private fun initViews() {
         floatButton()
         recycleView()
     }

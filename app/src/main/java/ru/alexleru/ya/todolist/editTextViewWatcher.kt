@@ -13,7 +13,7 @@ fun EditText.isHasText(afterChange: (String) -> Unit) {
         }
 
         override fun afterTextChanged(text: Editable?) {
-           afterChange.invoke(text.toString()).toString().isEmpty()
+           afterChange.invoke(text.toString())
         }
     })
 }
