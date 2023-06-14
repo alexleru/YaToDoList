@@ -12,7 +12,8 @@
         tools:layout="@layout/fragment_list_of_to_do" >
         <action
             android:id="@+id/action_listOfToDoFragment_to_toDoFormFragment"
-            app:destination="@id/toDoFormFragment" />
+            app:destination="@id/toDoFormFragment"
+            app:popUpTo="@id/listOfToDoFragment" />
     </fragment>
     <fragment
         android:id="@+id/toDoFormFragment"

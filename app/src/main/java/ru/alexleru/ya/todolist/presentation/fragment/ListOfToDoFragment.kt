@@ -14,10 +14,15 @@ import ru.alexleru.ya.todolist.R
 import ru.alexleru.ya.todolist.databinding.FragmentListOfToDoBinding
 import ru.alexleru.ya.todolist.domain.model.ToDoItem
 import ru.alexleru.ya.todolist.presentation.viewmodel.ListOfToDoViewModel
+import java.lang.RuntimeException
 
 class ListOfToDoFragment : Fragment() {
 
-    private lateinit var binding: FragmentListOfToDoBinding
+    private var _binding: FragmentListOfToDoBinding? = null
+    private val binding
+        get() = _binding ?: throw RuntimeException("FragmentListOfToDoBinding == Null")
+
+
     private lateinit var adapter: AdapterListOfToDo
     private val listOfToDoViewModel: ListOfToDoViewModel by viewModels()
 
@@ -25,8 +30,7 @@ class ListOfToDoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentListOfToDoBinding.inflate(inflater, container, false)
-
+        _binding = FragmentListOfToDoBinding.inflate(inflater, container, false)
         return binding.root
     }
 

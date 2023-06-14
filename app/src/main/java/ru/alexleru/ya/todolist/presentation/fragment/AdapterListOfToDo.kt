@@ -16,7 +16,6 @@ class AdapterListOfToDo : ListAdapter<ToDoItem, ToDoViewHolder>(ListOfToDoItemDi
 
     var clickItemListener: ((ToDoItem) -> Unit)? = null
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ToDoViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemTodoBinding.inflate(inflater, parent, false)

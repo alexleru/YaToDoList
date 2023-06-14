@@ -2,7 +2,6 @@ package ru.alexleru.ya.todolist.presentation.fragment
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,19 +9,29 @@ import android.widget.Spinner
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import ru.alexleru.ya.todolist.*
 import ru.alexleru.ya.todolist.databinding.FragmentToDoFormBinding
+import ru.alexleru.ya.todolist.dateToTriple
 import ru.alexleru.ya.todolist.domain.model.PriorityToDo
 import ru.alexleru.ya.todolist.domain.model.ToDoItem
+import ru.alexleru.ya.todolist.isHasText
 import ru.alexleru.ya.todolist.presentation.viewmodel.ToDoFormViewModel
-import java.util.*
+import ru.alexleru.ya.todolist.stringFromDatePickerToDateFormat
+import ru.alexleru.ya.todolist.stringFromDatePickerToStringFormat
+import ru.alexleru.ya.todolist.toStringDateForForm
+import java.util.Date
 
 class ToDoFormFragment : Fragment() {
     private val arg: ToDoFormFragmentArgs by navArgs()
-    private val toDoFormViewModel: ToDoFormViewModel by viewModels()
+    private val toDoFormViewModel: ToDoFormViewModel by lazy {
+        ViewModelProvider(this)[ToDoFormViewModel::class.java]
+    }
 
-    private lateinit var binding: FragmentToDoFormBinding
+    private var _binding: FragmentToDoFormBinding? = null
+    private val binding
+        get() = _binding ?: throw RuntimeException("FragmentToDoFormBinding == null")
     private lateinit var switch: SwitchCompat
     private lateinit var spinner: Spinner
     private lateinit var toDoItem: ToDoItem
@@ -31,12 +40,14 @@ class ToDoFormFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentToDoFormBinding.inflate(inflater, container, false)
+        _binding = FragmentToDoFormBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewModel = toDoFormViewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         initViews()
     }
 
@@ -58,7 +69,8 @@ class ToDoFormFragment : Fragment() {
 
     private fun buttonClose() {
         binding.imageViewClose.setOnClickListener {
-            activity?.onBackPressed() }
+            findNavController().popBackStack()
+        }
     }
 
     private fun buttonSave() {
@@ -71,7 +83,7 @@ class ToDoFormFragment : Fragment() {
             } else {
                 editToDoItem()
             }
-            toDoFormViewModel.canCloseTheFragment.observe(viewLifecycleOwner){
+            toDoFormViewModel.canCloseTheFragment.observe(viewLifecycleOwner) {
                 activity?.onBackPressed()
             }
 
@@ -105,13 +117,12 @@ class ToDoFormFragment : Fragment() {
         toDoFormViewModel.getToDoItemUseCase(idArg)
         toDoFormViewModel.toDoItem.observe(viewLifecycleOwner) { item ->
             toDoItem = item
-
-            binding.editTextMultiLine.setText(toDoItem.name)
-            spinner.setSelection(PriorityToDo.values().indexOfFirst { it == toDoItem.priorityToDo })
-            toDoItem.deadline?.let {
-                binding.textViewDate.text = it.toStringDateForForm()
-                binding.switchOnDate.isChecked = true
-            }
+            //binding.editTextMultiLine.setText(toDoItem.name)
+            //spinner.setSelection(PriorityToDo.values().indexOfFirst { it == toDoItem.priorityToDo })
+//            toDoItem.deadline?.let {
+//                binding.textViewDate.text = it.toStringDateForForm()
+//                binding.switchOnDate.isChecked = true
+//            }
 
         }
     }
@@ -126,12 +137,14 @@ class ToDoFormFragment : Fragment() {
         val isDone = false
         val creationDate = Date()
         val modifiedDate: Date? = null
-        toDoFormViewModel.addToDoItem(name,
+        toDoFormViewModel.addToDoItem(
+            name,
             priorityToDo,
             deadline,
             isDone,
             creationDate,
-            modifiedDate)
+            modifiedDate
+        )
     }
 
     private fun editToDoItem() {
@@ -146,7 +159,8 @@ class ToDoFormFragment : Fragment() {
         toDoFormViewModel.editToDoItem(
             name,
             priorityToDo,
-            deadline)
+            deadline
+        )
     }
 
     private fun viewDatePickerDialog() {
