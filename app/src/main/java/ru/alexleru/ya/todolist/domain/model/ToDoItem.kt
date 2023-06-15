@@ -1,7 +1,10 @@
 package ru.alexleru.ya.todolist.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import java.util.*
 
+@Parcelize
 data class ToDoItem(
     val name: String,
     val priorityToDo: PriorityToDo,
@@ -9,9 +12,5 @@ data class ToDoItem(
     val isDone: Boolean,
     val creationDate: Date,
     val modifiedDate: Date?,
-    var id: String = UNDEFINE_ID,
-) {
-    companion object{
-        const val UNDEFINE_ID = "null"
-    }
-}
+    var id: UUID = UUID.randomUUID(),
+): Parcelable

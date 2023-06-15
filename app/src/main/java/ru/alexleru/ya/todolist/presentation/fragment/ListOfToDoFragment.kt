@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +14,6 @@ import ru.alexleru.ya.todolist.R
 import ru.alexleru.ya.todolist.databinding.FragmentListOfToDoBinding
 import ru.alexleru.ya.todolist.domain.model.ToDoItem
 import ru.alexleru.ya.todolist.presentation.viewmodel.ListOfToDoViewModel
-import java.lang.RuntimeException
 
 class ListOfToDoFragment : Fragment() {
 
@@ -24,7 +23,7 @@ class ListOfToDoFragment : Fragment() {
 
 
     private lateinit var adapter: AdapterListOfToDo
-    private val listOfToDoViewModel: ListOfToDoViewModel by viewModels()
+    private val listOfToDoViewModel: ListOfToDoViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,7 +62,7 @@ class ListOfToDoFragment : Fragment() {
     private fun recycleClickItem() {
         adapter.clickItemListener = {
             val action =
-                ListOfToDoFragmentDirections.actionListOfToDoFragmentToToDoFormFragment(it.id)
+                ListOfToDoFragmentDirections.actionListOfToDoFragmentToToDoFormFragment(it)
             this.findNavController().navigate(action)
         }
     }
@@ -92,6 +91,7 @@ class ListOfToDoFragment : Fragment() {
                         listOfToDoViewModel.removeToDoItem(toDoItem)
                         snackbar(toDoItem)
                     }
+
                     ItemTouchHelper.RIGHT -> {
                         listOfToDoViewModel.editToDoItem(toDoItem)
                     }

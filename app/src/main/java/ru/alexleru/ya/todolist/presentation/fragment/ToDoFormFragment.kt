@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Spinner
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,7 +19,6 @@ import ru.alexleru.ya.todolist.isHasText
 import ru.alexleru.ya.todolist.presentation.viewmodel.ToDoFormViewModel
 import ru.alexleru.ya.todolist.stringFromDatePickerToDateFormat
 import ru.alexleru.ya.todolist.stringFromDatePickerToStringFormat
-import ru.alexleru.ya.todolist.toStringDateForForm
 import java.util.Date
 
 class ToDoFormFragment : Fragment() {
@@ -113,10 +111,10 @@ class ToDoFormFragment : Fragment() {
         }
     }
 
-    private fun openToDoItem(idArg: String) {
-        toDoFormViewModel.getToDoItemUseCase(idArg)
+    private fun openToDoItem(toDoItem: ToDoItem) {
+        toDoFormViewModel.getToDoItemUseCase(toDoItem.id)
         toDoFormViewModel.toDoItem.observe(viewLifecycleOwner) { item ->
-            toDoItem = item
+            this.toDoItem = item
             //binding.editTextMultiLine.setText(toDoItem.name)
             //spinner.setSelection(PriorityToDo.values().indexOfFirst { it == toDoItem.priorityToDo })
 //            toDoItem.deadline?.let {

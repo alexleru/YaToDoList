@@ -1,11 +1,11 @@
 package ru.alexleru.ya.todolist.domain.usecase
 
-import androidx.lifecycle.LiveData
-import ru.alexleru.ya.todolist.domain.model.ToDoItem
 import ru.alexleru.ya.todolist.domain.ToDoItemsRepository
+import ru.alexleru.ya.todolist.domain.model.ToDoItem
+import java.util.UUID
 
 class GetToDoItemUseCase(private val toDoItemsRepository: ToDoItemsRepository) {
-    fun getByIdToDoItem(id: String): ToDoItem {
+    suspend fun getByIdToDoItem(id: UUID): ToDoItem {
         return toDoItemsRepository.getByIdToDoItem(id)
     }
 }

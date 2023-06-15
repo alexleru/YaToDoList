@@ -22,7 +22,7 @@
         tools:layout="@layout/fragment_to_do_form" >
         <argument
             android:name="id"
-            app:argType="string"
+            app:argType="ru.alexleru.ya.todolist.domain.model.ToDoItem"
             app:nullable="true" />
     </fragment>
 </navigation>

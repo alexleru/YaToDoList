@@ -1,8 +1,11 @@
 package ru.alexleru.ya.todolist.presentation.viewmodel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import ru.alexleru.ya.todolist.data.ToDoItemsRepositoryImpl
 import ru.alexleru.ya.todolist.domain.model.PriorityToDo
 import ru.alexleru.ya.todolist.domain.model.ToDoItem
@@ -10,11 +13,12 @@ import ru.alexleru.ya.todolist.domain.usecase.AddToDoItemUseCase
 import ru.alexleru.ya.todolist.domain.usecase.EditToDoItemUseCase
 import ru.alexleru.ya.todolist.domain.usecase.GetToDoItemUseCase
 import ru.alexleru.ya.todolist.domain.usecase.RemoveToDoItemUseCase
-import java.util.*
+import java.util.Date
+import java.util.UUID
 
-class ToDoFormViewModel : ViewModel() {
+class ToDoFormViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val toDoItemsRepository = ToDoItemsRepositoryImpl
+    private val toDoItemsRepository = ToDoItemsRepositoryImpl(application)
 
     private val addToDoItemUseCase = AddToDoItemUseCase(toDoItemsRepository)
     private val editToDoItemUseCase = EditToDoItemUseCase(toDoItemsRepository)
@@ -41,12 +45,14 @@ class ToDoFormViewModel : ViewModel() {
         creationDate: Date,
         modifiedDate: Date?,
     ) {
-        val validateName = validateName(name)
-        if (validateName) {
-            val toDoItem =
-                ToDoItem(name, priorityToDo, deadline, isDone, creationDate, modifiedDate)
-            addToDoItemUseCase.addToDoItem(toDoItem)
-            canCloseTheFragment()
+        viewModelScope.launch {
+            val validateName = validateName(name)
+            if (validateName) {
+                val toDoItem =
+                    ToDoItem(name, priorityToDo, deadline, isDone, creationDate, modifiedDate)
+                addToDoItemUseCase.addToDoItem(toDoItem)
+                canCloseTheFragment()
+            }
         }
     }
 
@@ -55,15 +61,19 @@ class ToDoFormViewModel : ViewModel() {
         priorityToDo: PriorityToDo,
         deadline: Date?
     ) {
-        val validateName = validateName(name)
-        if (validateName) {
-            _toDoItem.value?.let {
-                val item = it.copy(name = name,
-                    priorityToDo = priorityToDo,
-                    deadline = deadline,
-                    modifiedDate = Date())
-                editToDoItemUseCase.editToDoItem(item)
-                canCloseTheFragment()
+        viewModelScope.launch {
+            val validateName = validateName(name)
+            if (validateName) {
+                _toDoItem.value?.let {
+                    val item = it.copy(
+                        name = name,
+                        priorityToDo = priorityToDo,
+                        deadline = deadline,
+                        modifiedDate = Date()
+                    )
+                    editToDoItemUseCase.editToDoItem(item)
+                    canCloseTheFragment()
+                }
             }
         }
     }
@@ -86,11 +96,15 @@ class ToDoFormViewModel : ViewModel() {
     }
 
     fun removeToDoItem(toDoItem: ToDoItem) {
-        removeToDoItemUseCase.removeToDoItem(toDoItem)
+        viewModelScope.launch {
+            removeToDoItemUseCase.removeToDoItem(toDoItem)
+        }
     }
 
-    fun getToDoItemUseCase(id: String) {
-        val item = getToDoItemUseCase.getByIdToDoItem(id)
-        _toDoItem.value = item
+    fun getToDoItemUseCase(id: UUID) {
+        viewModelScope.launch {
+            val item = getToDoItemUseCase.getByIdToDoItem(id)
+            _toDoItem.value = item
+        }
     }
 }

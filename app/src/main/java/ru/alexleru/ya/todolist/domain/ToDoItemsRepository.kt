@@ -2,15 +2,16 @@ package ru.alexleru.ya.todolist.domain
 
 import androidx.lifecycle.LiveData
 import ru.alexleru.ya.todolist.domain.model.ToDoItem
+import java.util.UUID
 
 interface ToDoItemsRepository {
-    fun addToDoItem(toDoItem: ToDoItem)
+    suspend fun addToDoItem(toDoItem: ToDoItem)
 
-    fun editToDoItem(toDoItem: ToDoItem)
+    suspend fun editToDoItem(toDoItem: ToDoItem)
 
-    fun getByIdToDoItem(id: String): ToDoItem
+    suspend fun getByIdToDoItem(id: UUID): ToDoItem
 
     fun getToDoList(): LiveData<List<ToDoItem>>
 
-    fun removeToDoItem(toDoItem: ToDoItem)
+    suspend fun removeToDoItem(toDoItem: ToDoItem)
 }
